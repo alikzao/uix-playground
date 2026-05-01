@@ -13,33 +13,92 @@ export const code = `const ensureStylesheet = (href) => {
 
 ensureStylesheet("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 ensureStylesheet("./vendor/uix-menu/src/tree.css");
-document.documentElement.setAttribute("data-theme", "light");
+document.documentElement.setAttribute("data-theme", "dark");
+
+const ensureInlineStyle = () => {
+  if (document.getElementById("uix-menu-demo-style")) return;
+  const style = document.createElement("style");
+  style.id = "uix-menu-demo-style";
+  style.textContent = \`
+    #menu-demo-shell {
+      padding: 18px;
+      background: #242528;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    #sidebar {
+      width: 420px;
+      max-width: calc(100vw - 64px);
+      min-width: 300px;
+      background: #333333;
+      color: #ffffff;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+      padding: 16px 12px 10px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    #sidebar .node-content,
+    #sidebar .leaf-node-content {
+      color: #f2f4f8;
+      font-size: 22px;
+      line-height: 1.25;
+      padding: 10px 8px;
+    }
+    #sidebar .toggle-icon {
+      color: #f2f4f8;
+      font-size: 42px;
+      font-weight: 500;
+      line-height: 1;
+    }
+    #sidebar #sidebarToggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      margin: 0 0 12px auto;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.06);
+      color: #ffffff;
+      font-size: 30px;
+      cursor: pointer;
+    }
+    #sidebar .sidebar-footer {
+      background: linear-gradient(180deg, rgba(51,51,51,0), rgba(51,51,51,0.95) 35%, #333333 100%);
+      border-top: 1px solid rgba(255,255,255,0.12);
+      margin-top: 8px;
+      padding-top: 14px;
+    }
+    #sidebar #sidebarResetBottom {
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+    }
+  \`;
+  document.head.appendChild(style);
+};
+ensureInlineStyle();
 
 root.innerHTML = \`
-  <div class="nav1">
-    <button class="burger" type="button">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-links">
-      <div data-child="mobileTree"></div>
-    </div>
+  <div id="menu-demo-shell">
+    <aside id="sidebar" class="sidebar scroll-area" style="height:92vh;">
+      <button id="sidebarToggle" type="button" title="Toggle sidebar">‹</button>
+      <div data-child="sidebarTree"></div>
+      <div class="sidebar-footer">
+        <button id="sidebarResetBottom" type="button" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+      </div>
+    </aside>
   </div>
-  <aside id="sidebar" class="sidebar scroll-area" style="height:100vh; overflow:auto; border-right:1px solid #555;">
-    <button id="sidebarToggle" type="button" style="margin:8px;">Toggle</button>
-    <div data-child="sidebarTree"></div>
-    <div class="sidebar-footer">
-      <button id="sidebarResetBottom" type="button" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
-    </div>
-  </aside>
 \`;
 
 const { initMenuTree } = api.uixMenu;
-const { sidebar, mobile } = initMenuTree({
+const { sidebar } = initMenuTree({
   selectors: {
     sidebar: "#sidebar",
-    mobile: ".nav1",
-    burger: ".burger",
-    navLinks: ".nav-links"
+    mobile: "#__no_mobile_menu__"
   },
   callbacks: {
     onTabSelect: ({ tabId, name }) => {
@@ -49,4 +108,4 @@ const { sidebar, mobile } = initMenuTree({
 });
 
 log(\`sidebar ready: \${Boolean(sidebar)}\`);
-log(\`mobile ready: \${Boolean(mobile)}\`);`;
+log("mobile ready: false (disabled in this demo)");`;
