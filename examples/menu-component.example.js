@@ -13,7 +13,7 @@ export const code = `const ensureStylesheet = (href) => {
 
 ensureStylesheet("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 ensureStylesheet("./vendor/uix-menu/src/tree.css");
-document.documentElement.setAttribute("data-theme", "dark");
+document.documentElement.setAttribute("data-theme", "light");
 
 root.innerHTML = \`
   <div class="nav1">
