@@ -43,13 +43,15 @@ const ensureInlineStyle = () => {
     #sidebar .node-content,
     #sidebar .leaf-node-content {
       color: #f2f4f8;
-      font-size: 22px;
-      line-height: 1.25;
+      font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 500;
       padding: 10px 8px;
     }
     #sidebar .toggle-icon {
       color: #f2f4f8;
-      font-size: 42px;
+      font-size: 28px;
       font-weight: 500;
       line-height: 1;
     }
@@ -64,7 +66,7 @@ const ensureInlineStyle = () => {
       border: 1px solid rgba(255,255,255,0.25);
       background: rgba(255,255,255,0.06);
       color: #ffffff;
-      font-size: 30px;
+      font-size: 24px;
       cursor: pointer;
     }
     #sidebar .sidebar-footer {
@@ -85,10 +87,10 @@ ensureInlineStyle();
 root.innerHTML = \`
   <div id="menu-demo-shell">
     <aside id="sidebar" class="sidebar scroll-area" style="height:92vh;">
-      <button id="sidebarToggle" type="button" title="Toggle sidebar">‹</button>
+      <button id="sidebarToggle" type="button" title="Toggle sidebar" onClick="toggleSidebar">‹</button>
       <div data-child="sidebarTree"></div>
       <div class="sidebar-footer">
-        <button id="sidebarResetBottom" type="button" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
+        <button id="sidebarResetBottom" type="button" title="Reset" onClick="resetUiState"><i class="bi bi-arrow-clockwise"></i></button>
       </div>
     </aside>
   </div>
