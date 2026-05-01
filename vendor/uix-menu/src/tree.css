@@ -1,0 +1,356 @@
+html[data-theme="dark"] {
+    --sidebar-bg: #333333;
+    --sidebar-bg-elevated: #333333;
+    --sidebar-text: #ffffff;
+    --sidebar-text-soft: #a4c1ec;
+    --sidebar-text-muted: #6a87b1;
+    --sidebar-border: rgba(255,255,255,0.25);
+    --sidebar-border-strong: #555555;
+    --sidebar-hover: rgba(255,255,255,0.06);
+    --sidebar-copy-hover: rgba(255,255,255,0.08);
+    --sidebar-shadow: 0 -8px 12px rgba(0,0,0,0.25);
+    --sidebar-brand-shadow: 3px 3px 8px rgba(0,128,255,0.6), 0 0 15px rgba(0,128,255,0.4);
+    --tree-branch: #cccccc;
+    --tree-leaf-dot: #fbfbfb;
+    --tree-toggle: #ffffff;
+    --tree-icon: #ffffff;
+    --tree-scroll-track: #1f2124;
+    --tree-scroll-thumb: linear-gradient(180deg,#9097a1,#6b7280);
+    --tree-scroll-thumb-hover: linear-gradient(180deg,#aeb5bf,#8b929b);
+    --tree-scrollbar-color: #6b7280 #1f2124;
+}
+
+html[data-theme="light"] {
+    --sidebar-bg: #fbfcfe;
+    --sidebar-bg-elevated: #ffffff;
+    --sidebar-text: #1f2937;
+    --sidebar-text-soft: #4f83c2;
+    --sidebar-text-muted: #6282ab;
+    --sidebar-border: #d8e1eb;
+    --sidebar-border-strong: #d3dbe6;
+    --sidebar-hover: rgba(11,132,216,0.06);
+    --sidebar-copy-hover: rgba(11,132,216,0.08);
+    --sidebar-shadow: 0 -8px 12px rgba(15,23,42,0.08);
+    --sidebar-brand-shadow: 0 1px 0 rgba(255,255,255,0.8);
+    --tree-branch: #9fb8d4;
+    --tree-leaf-dot: #b2c7df;
+    --tree-toggle: #4b5563;
+    --tree-icon: #2563eb;
+    --tree-scroll-track: #eef3f8;
+    --tree-scroll-thumb: linear-gradient(180deg,#c3cfdd,#a7b6c7);
+    --tree-scroll-thumb-hover: linear-gradient(180deg,#b6c5d6,#94a7bb);
+    --tree-scrollbar-color: #a7b6c7 #eef3f8;
+}
+
+.tree {
+    list-style-type: none;
+    padding-left: 0;
+    position: relative;
+    margin-left: 5px !important;
+}
+
+.tree ul {
+    list-style-type: none;
+    margin-left: 50px;
+    padding-left: 0;
+    border-left: 1px dashed var(--tree-branch);
+}
+
+.tree li {
+    margin: 5px 0;
+    position: relative;
+}
+
+.node-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Убираем padding-left, так как отступы задаются через margin-left у .tree ul и paddingLeft в JS */
+     padding-left: 0px !important;
+}
+
+.icon-text-container {
+    display: flex;
+    align-items: center;
+}
+
+.leaf-icon {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--tree-leaf-dot);
+    border-radius: 50%;
+    margin-right: 20px;
+    margin-left: -5px;
+}
+
+.leaf-icon-placeholder {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 10px;
+    visibility: hidden;
+}
+
+.toggle-icon {
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--tree-toggle);
+    min-width: 20px;
+    text-align: center;
+}
+
+.tree li.collapsed > ul {
+/*.collapsed ul {*/
+    display: none;
+}
+
+.root {
+    border: none !important;
+}
+.icon-text-container i {
+    margin-right: 6px;
+    font-size: 1em;
+    color: var(--tree-icon);
+}
+.node-content {
+    cursor: pointer;
+    color: var(--sidebar-text);
+}
+
+
+
+/* style for tree scroll */
+/* Базовая область со скроллом */
+.scroll-area{
+    overflow-y: auto;
+    /*scrollbar-gutter: stable both-edges; !* избегает дёрганья контента (Chrome/FF/Safari 17+) *!*/
+    scrollbar-gutter: stable; /* без both-edges — не даём лишний паз со стороны без скролла */
+}
+
+/* ---------- WebKit (Chrome/Edge/Safari) ---------- */
+.scroll-area::-webkit-scrollbar{
+    width: 10px;                 /* толщина вертикального */
+    height: 10px;                /* толщина горизонтального */
+}
+
+.scroll-area::-webkit-scrollbar-track{
+    background: var(--tree-scroll-track);         /* трек */
+    border-radius: 10px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb{
+    background: var(--tree-scroll-thumb);
+    border-radius: 10px;
+    border: 2px solid var(--tree-scroll-track);   /* “внутренний отступ” у бегунка */
+}
+
+.scroll-area::-webkit-scrollbar-thumb:hover{
+    background: var(--tree-scroll-thumb-hover);
+}
+
+.scroll-area::-webkit-scrollbar-corner{
+    background: var(--tree-scroll-track);         /* уголок при двух барах */
+}
+
+/* При наведении делаем скролл чуть толще */
+/*.scroll-area:hover::-webkit-scrollbar{ width: 12px; height:12px; }*/
+.scroll-area:hover::-webkit-scrollbar{ width: 10px; height:10px; }
+
+/* ---------- Firefox ---------- */
+.scroll-area{
+    scrollbar-width: thin;                     /* thin | auto | none */
+    scrollbar-color: var(--tree-scrollbar-color);          /* thumb track */
+}
+
+/* ширина свернутого у тебя 72px — используем её */
+#sidebar.collapsed .sidebar-footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 54px;
+    background: var(--sidebar-bg);
+    padding: 8px;
+    box-shadow: var(--sidebar-shadow);
+    z-index: 1100;
+    display: flex;
+    justify-content: center; /* по центру в узком режиме */
+}
+
+/* чтобы контентом не перекрывать кнопку в развернутом режиме */
+#sidebar{
+    /*padding-bottom: 30px;*/
+}
+
+/* сам сайдбар уже scroll-area c overflow:auto — это ок */
+.sidebar.scroll-area {
+    /*overflow: auto;*/
+}
+
+#sidebar .sidebar-footer {
+    position: sticky;
+    bottom: 0;
+    background: var(--sidebar-bg);
+    padding: 8px;
+    display: flex;
+    justify-content: flex-end;
+    z-index: 2;
+    box-shadow: var(--sidebar-shadow);
+}
+
+#sidebar #sidebarResetBottom {
+    position: static;          /* снять absolute */
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--sidebar-border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--sidebar-text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+     /* ===== collapsed tree final ===== */
+
+ #sidebar.collapsed > ul {
+     display: none;
+ }
+
+#sidebar.collapsed .tree {
+    margin-left: 0 !important;
+}
+
+#sidebar.collapsed .tree ul {
+    margin-left: 14px !important;
+    border-left: 1px dashed var(--sidebar-border-strong);
+}
+
+#sidebar.collapsed .tree .node-content,
+#sidebar.collapsed .tree .leaf-node-content {
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#sidebar.collapsed .tree .label,
+#sidebar.collapsed .tree .toggle-icon {
+    display: none !important;
+}
+
+#sidebar.collapsed .tree .leaf-icon,
+#sidebar.collapsed .tree .leaf-icon-placeholder {
+    display: none !important;
+}
+
+#sidebar.collapsed .tree .icon-text-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: auto !important;
+    min-width: 20px !important;
+}
+
+#sidebar.collapsed .tree .icon-text-container i {
+    display: inline-block !important;
+    color: var(--tree-icon) !important;
+    margin-right: 0 !important;
+    font-size: 18px !important;
+    width: 20px !important;
+    min-width: 20px !important;
+    text-align: center !important;
+}
+
+#sidebar.collapsed .tree .node-content,
+#sidebar.collapsed .tree .leaf-node-content {
+    padding-left: 4px !important;
+}
+
+/* collapsed: компактное дерево */
+#sidebar.collapsed .tree ul {
+    margin-left: 12px !important;
+    border-left: 1px dashed var(--sidebar-border-strong);
+}
+
+/* базовые пункты */
+#sidebar.collapsed .tree > li > .node-content,
+#sidebar.collapsed .tree > li > .leaf-node-content {
+    padding-left: 4px !important;
+}
+
+/* вложенные пункты */
+#sidebar.collapsed .tree ul .node-content,
+#sidebar.collapsed .tree ul .leaf-node-content {
+    padding-left: 2px !important;
+}
+
+/* иконки верхнего уровня */
+#sidebar.collapsed .tree > li > .node-content .icon-text-container i,
+#sidebar.collapsed .tree > li > .leaf-node-content .icon-text-container i {
+    font-size: 18px !important;
+    width: 20px !important;
+    min-width: 20px !important;
+}
+
+/* иконки вложенных пунктов — мельче */
+#sidebar.collapsed .tree ul .icon-text-container i {
+    font-size: 14px !important;
+    width: 16px !important;
+    min-width: 16px !important;
+}
+
+/* скрываем текст */
+#sidebar.collapsed .tree .label,
+#sidebar.collapsed .tree .toggle-icon,
+#sidebar.collapsed .tree .leaf-icon,
+#sidebar.collapsed .tree .leaf-icon-placeholder {
+    display: none !important;
+}
+
+/* строка остается кликабельной */
+#sidebar.collapsed .tree .node-content,
+#sidebar.collapsed .tree .leaf-node-content {
+    justify-content: flex-start !important;
+    overflow: visible !important;
+    white-space: nowrap;
+}
+
+/* свернутый sidebar: корневые закрытые пункты по центру */
+#sidebar.collapsed .tree.root > li.parent.collapsed > .node-content,
+#sidebar.collapsed .tree.root > li:not(.parent) > .leaf-node-content {
+    justify-content: center !important;
+    padding-left: 0 !important;
+}
+
+/* когда корневой пункт раскрыт — обратно влево */
+#sidebar.collapsed .tree.root > li.parent:not(.collapsed) > .node-content {
+    justify-content: flex-start !important;
+    padding-left: 4px !important;
+}
+
+html[data-theme="light"] #sidebar {
+    border-right: 1px solid var(--sidebar-border);
+    box-shadow: 8px 0 24px rgba(15,23,42,0.05);
+}
+
+html[data-theme="light"] .sidebar-header {
+    border-bottom: 1px solid var(--sidebar-border);
+}
+
+html[data-theme="light"] #sidebar .sidebar-footer,
+html[data-theme="light"] #sidebar.collapsed .sidebar-footer {
+    border-top: 1px solid var(--sidebar-border);
+}
+
+html[data-theme="light"] .node-content:hover,
+html[data-theme="light"] .leaf-node-content:hover {
+    background: var(--sidebar-hover);
+    border-radius: 8px;
+}
+
+html[data-theme="light"] .toggle-icon {
+    color: var(--tree-toggle);
+}

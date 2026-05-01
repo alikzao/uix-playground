@@ -270,6 +270,7 @@
     const requestedExample = params.get("example");
     let currentKey = examplesById[requestedExample] ? requestedExample : defaultExampleId;
     let initialCode = examplesById[currentKey].code;
+    let initialExternals = examplesById[currentKey].externals || "";
 
     const setEditorValue = (value) => {
       if (monacoEditor) {
@@ -284,6 +285,10 @@
         return monacoEditor.getValue();
       }
       return editorFallback.value;
+    };
+
+    const setExternalsValue = (value) => {
+      externalsInput.value = value || "";
     };
 
     const showFallbackEditor = () => {
@@ -460,7 +465,9 @@
     select.addEventListener("change", () => {
       currentKey = select.value;
       initialCode = examplesById[currentKey].code;
+      initialExternals = examplesById[currentKey].externals || "";
       setEditorValue(initialCode);
+      setExternalsValue(initialExternals);
       const nextUrl = `${window.location.pathname}?example=${encodeURIComponent(currentKey)}`;
       window.history.replaceState(null, "", nextUrl);
       run();
@@ -469,7 +476,9 @@
     runBtn.addEventListener("click", run);
     resetBtn.addEventListener("click", () => {
       initialCode = examplesById[currentKey].code;
+      initialExternals = examplesById[currentKey].externals || "";
       setEditorValue(initialCode);
+      setExternalsValue(initialExternals);
       run();
     });
     clearLogsBtn.addEventListener("click", clearLogs);
@@ -534,6 +543,7 @@
     });
 
     frame.addEventListener("load", run);
+    setExternalsValue(initialExternals);
     await initEditor();
     initSplitLayout();
     if (isFallbackEditor) {
