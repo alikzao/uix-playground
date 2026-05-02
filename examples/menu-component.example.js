@@ -39,6 +39,14 @@ const ensureInlineStyle = () => {
       box-sizing: border-box;
       overflow-y: auto;
       overflow-x: hidden;
+      transition: width 160ms ease, min-width 160ms ease, max-width 160ms ease, padding 160ms ease;
+    }
+    #sidebar.collapsed {
+      width: 74px !important;
+      min-width: 74px !important;
+      max-width: 74px !important;
+      padding-left: 6px;
+      padding-right: 6px;
     }
     #sidebar .node-content,
     #sidebar .leaf-node-content {
@@ -69,6 +77,9 @@ const ensureInlineStyle = () => {
       font-size: 24px;
       cursor: pointer;
     }
+    #sidebar #sidebarToggle i {
+      pointer-events: none;
+    }
     #sidebar .sidebar-footer {
       background: linear-gradient(180deg, rgba(51,51,51,0), rgba(51,51,51,0.95) 35%, #333333 100%);
       border-top: 1px solid rgba(255,255,255,0.12);
@@ -87,7 +98,9 @@ ensureInlineStyle();
 root.innerHTML = \`
   <div id="menu-demo-shell">
     <aside id="sidebar" class="sidebar scroll-area" style="height:92vh;">
-      <button id="sidebarToggle" type="button" title="Toggle sidebar" onClick="toggleSidebar">‹</button>
+      <button id="sidebarToggle" type="button" title="Toggle sidebar" onClick="toggleSidebar">
+        <i class="bi bi-chevron-left"></i>
+      </button>
       <div data-child="sidebarTree"></div>
       <div class="sidebar-footer">
         <button id="sidebarResetBottom" type="button" title="Reset" onClick="resetUiState"><i class="bi bi-arrow-clockwise"></i></button>
@@ -96,8 +109,26 @@ root.innerHTML = \`
   </div>
 \`;
 
+const toTitleLabel = (value) => {
+  const text = String(value || "");
+  const words = text
+    .replace(/[_-]+/g, " ")
+    .trim()
+    .split(/\\s+/)
+    .filter(Boolean);
+  return words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+};
+
+const normalizeTreeData = (items) =>
+  (Array.isArray(items) ? items : []).map((item) => ({
+    ...item,
+    name: toTitleLabel(item.name),
+    children: normalizeTreeData(item.children)
+  }));
+
 const { initMenuTree } = api.uixMenu;
 const { sidebar } = initMenuTree({
+  data: normalizeTreeData(api.uixMenu.treeData),
   selectors: {
     sidebar: "#sidebar",
     mobile: "#__no_mobile_menu__"
