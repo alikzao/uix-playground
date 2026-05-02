@@ -48,6 +48,16 @@ const ensureInlineStyle = () => {
       padding-left: 6px;
       padding-right: 6px;
     }
+    #sidebar .sidebar-header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      justify-content: flex-end;
+      padding: 2px 2px 10px;
+      margin-bottom: 6px;
+      background: linear-gradient(180deg, #333333 70%, rgba(51,51,51,0));
+    }
     #sidebar .node-content,
     #sidebar .leaf-node-content {
       color: #f2f4f8;
@@ -81,6 +91,9 @@ const ensureInlineStyle = () => {
       pointer-events: none;
     }
     #sidebar .sidebar-footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 5;
       background: linear-gradient(180deg, rgba(51,51,51,0), rgba(51,51,51,0.95) 35%, #333333 100%);
       border-top: 1px solid rgba(255,255,255,0.12);
       margin-top: 8px;
@@ -98,9 +111,11 @@ ensureInlineStyle();
 root.innerHTML = \`
   <div id="menu-demo-shell">
     <aside id="sidebar" class="sidebar scroll-area" style="height:92vh;">
-      <button id="sidebarToggle" type="button" title="Toggle sidebar" onClick="toggleSidebar">
-        <i class="bi bi-chevron-left"></i>
-      </button>
+      <div class="sidebar-header">
+        <button id="sidebarToggle" type="button" title="Toggle sidebar" onClick="toggleSidebar">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+      </div>
       <div data-child="sidebarTree"></div>
       <div class="sidebar-footer">
         <button id="sidebarResetBottom" type="button" title="Reset" onClick="resetUiState"><i class="bi bi-arrow-clockwise"></i></button>
