@@ -19,6 +19,27 @@ npm run serve
 Open:
 - http://127.0.0.1:4173/index.html
 
+## Scripts
+
+- `npm run build`
+Builds the playground shell into `dist/`:
+`dist/app.js`, `dist/app.css`, `dist/vendor/monaco/vs/*`.
+
+- `npm run serve`
+Starts a static server for local preview at `http://127.0.0.1:4173/index.html`.
+
+## When to run build again
+
+Run `npm run build` after changing:
+- `src/app.js`
+- `src/app.css`
+- `scripts/build-playground.mjs`
+
+You usually do not need shell rebuild when changing only runtime example files:
+- `examples/*.example.js`
+- `examples/index.js`
+- `runner.html`
+
 ## Monorepo compatibility
 
 This folder is self-contained so it can be split and pushed as a separate repository.
@@ -41,6 +62,11 @@ Examples are intentionally not bundled into shell build:
 - `examples/index.js`
 
 Shell loads examples at runtime.
+
+## Published playground
+
+GitHub Pages:
+- https://alikzao.github.io/uix-playground/
 
 ## External modules in sandbox
 
