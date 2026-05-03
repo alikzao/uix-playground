@@ -265,6 +265,7 @@
     let runTimeoutId = null;
     let splitColumns = null;
     let splitRows = null;
+    let initialRunStarted = false;
 
     const params = new URLSearchParams(window.location.search);
     const requestedExample = params.get("example");
@@ -436,6 +437,7 @@
     };
 
     const run = () => {
+      initialRunStarted = true;
       clearLogs();
       currentRunId = `run-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       if (runTimeoutId) {
@@ -455,6 +457,7 @@
       );
       runTimeoutId = window.setTimeout(() => {
         setStatus("execution timeout, runner restarted", "err");
+        frame.addEventListener("load", run, { once: true });
         frame.src = `./runner.html?reload=${Date.now()}`;
       }, 2500);
       setStatus("running...");
@@ -542,12 +545,20 @@
       }
     });
 
-    frame.addEventListener("load", run);
     setExternalsValue(initialExternals);
     await initEditor();
     initSplitLayout();
     if (isFallbackEditor) {
       setEditorValue(initialCode);
+    }
+    if (frame.contentDocument?.readyState === "complete") {
+      run();
+    } else {
+      frame.addEventListener("load", () => {
+        if (!initialRunStarted) {
+          run();
+        }
+      }, { once: true });
     }
   </script>
 </body>
