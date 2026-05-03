@@ -93,13 +93,13 @@ root.innerHTML = \`
   <div id="menu-demo-shell">
     <aside id="sidebar" class="sidebar scroll-area" style="height:92vh;">
       <div class="sidebar-header">
-        <button id="sidebarToggle" type="button" title="Toggle sidebar" onClick="toggleSidebar">
+        <button id="sidebarToggle" type="button" title="Toggle sidebar">
           <i class="bi bi-chevron-left"></i>
         </button>
       </div>
       <div data-child="sidebarTree"></div>
       <div class="sidebar-footer">
-        <button id="sidebarResetBottom" type="button" title="Reset" onClick="resetUiState"><i class="bi bi-arrow-clockwise"></i></button>
+        <button id="sidebarResetBottom" type="button" title="Reset"><i class="bi bi-arrow-clockwise"></i></button>
       </div>
     </aside>
   </div>
@@ -135,6 +135,16 @@ const { sidebar } = initMenuTree({
     }
   }
 });
+
+const sidebarToggleButton = document.getElementById("sidebarToggle");
+if (sidebarToggleButton && sidebar) {
+  sidebarToggleButton.addEventListener("click", () => sidebar.toggleSidebar());
+}
+
+const sidebarResetButton = document.getElementById("sidebarResetBottom");
+if (sidebarResetButton && sidebar) {
+  sidebarResetButton.addEventListener("click", () => sidebar.resetUiState());
+}
 
 log(\`sidebar ready: \${Boolean(sidebar)}\`);
 log("mobile ready: false (disabled in this demo)");`;

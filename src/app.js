@@ -4,8 +4,8 @@ import "./app.css";
 const playgroundRoot = new URL("../", import.meta.url);
 const examplesUrl = new URL("./examples/index.js", playgroundRoot).href;
 const runnerBaseUrl = new URL("./runner.html", playgroundRoot).href;
-const monacoLoaderUrl = new URL("./vendor/monaco/vs/loader.js", playgroundRoot).href;
-const monacoVsPath = new URL("./vendor/monaco/vs", playgroundRoot).href;
+const monacoLoaderUrl = new URL("./dist/vendor/monaco/vs/loader.js", playgroundRoot).href;
+const monacoVsPath = new URL("./dist/vendor/monaco/vs", playgroundRoot).href;
 
 const { examples, examplesById, defaultExampleId } = await import(examplesUrl);
 
