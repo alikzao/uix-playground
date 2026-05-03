@@ -351,6 +351,11 @@
       externalsInput.value = value || "";
     };
 
+    const showWarmEditor = () => {
+      editorFallback.classList.remove("hidden");
+      editorFallback.value = initialCode;
+    };
+
     const showFallbackEditor = () => {
       isFallbackEditor = true;
       editorHost.style.display = "none";
@@ -381,6 +386,7 @@
     };
 
     const initEditor = async () => {
+      showWarmEditor();
       try {
         const monaco = await loadMonaco();
         monacoEditor = monaco.editor.create(editorHost, {
@@ -443,6 +449,7 @@
 
         monacoEditor.onDidChangeModelContent(updateEventBindingHighlights);
         updateEventBindingHighlights();
+        editorFallback.classList.add("hidden");
       } catch (_error) {
         showFallbackEditor();
       }
@@ -640,13 +647,13 @@
     });
 
     setExternalsValue(initialExternals);
+    pendingRun = true;
+    loadRunner();
     await initEditor();
     initSplitLayout();
     if (isFallbackEditor) {
       setEditorValue(initialCode);
     }
-    pendingRun = true;
-    loadRunner();
   </script>
 </body>
 </html>
