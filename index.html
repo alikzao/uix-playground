@@ -25,6 +25,54 @@
       display: grid;
       grid-template-rows: auto 1fr;
     }
+    body.booting {
+      overflow: hidden;
+    }
+    body.booting .topbar,
+    body.booting .workbench {
+      visibility: hidden;
+    }
+    .boot-overlay {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at top, rgba(79, 140, 255, 0.18), transparent 36%),
+        linear-gradient(180deg, #0f1420 0%, #0a0f18 100%);
+      z-index: 1000;
+      transition: opacity 220ms ease, visibility 220ms ease;
+    }
+    .boot-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .boot-card {
+      display: grid;
+      justify-items: center;
+      gap: 18px;
+      padding: 28px 32px;
+      color: #dce6f8;
+    }
+    .boot-ring {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 3px solid rgba(124, 141, 181, 0.2);
+      border-top-color: #7cb7ff;
+      border-right-color: #4f8cff;
+      animation: uix-spin 0.9s linear infinite;
+      box-shadow: 0 0 0 1px rgba(124, 183, 255, 0.08);
+    }
+    .boot-label {
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      color: #aebbd4;
+    }
+    @keyframes uix-spin {
+      to { transform: rotate(360deg); }
+    }
     .topbar {
       display: flex;
       gap: 10px;
@@ -195,7 +243,13 @@
     }
   </style>
 </head>
-<body>
+<body class="booting">
+  <div class="boot-overlay" id="bootOverlay" aria-live="polite" aria-label="Loading playground">
+    <div class="boot-card">
+      <div class="boot-ring"></div>
+      <div class="boot-label" id="bootLabel">Loading sandbox...</div>
+    </div>
+  </div>
   <div class="topbar">
     <h1>UIX Sandbox</h1>
     <div class="controls">
@@ -253,6 +307,8 @@
     const frame = document.getElementById("preview");
     const status = document.getElementById("status");
     const logs = document.getElementById("logs");
+    const bootOverlay = document.getElementById("bootOverlay");
+    const bootLabel = document.getElementById("bootLabel");
     const workbench = document.getElementById("workbench");
     const topRegion = document.getElementById("topRegion");
     const codePane = document.getElementById("codePane");
@@ -266,6 +322,7 @@
     let splitColumns = null;
     let splitRows = null;
     let initialRunStarted = false;
+    let initialRunCompleted = false;
     let runnerReady = false;
     let pendingRun = false;
 
@@ -409,6 +466,19 @@
       status.className = `status ${mode}`.trim();
     };
 
+    const setBootMessage = (text) => {
+      bootLabel.textContent = text;
+    };
+
+    const hideBootOverlay = () => {
+      if (initialRunCompleted) {
+        return;
+      }
+      initialRunCompleted = true;
+      document.body.classList.remove("booting");
+      bootOverlay.classList.add("hidden");
+    };
+
     const clearLogs = () => {
       logs.textContent = "";
     };
@@ -420,6 +490,7 @@
 
     const loadRunner = () => {
       runnerReady = false;
+      setBootMessage("Loading sandbox...");
       frame.src = `./runner.html?reload=${Date.now()}`;
     };
 
@@ -446,11 +517,13 @@
     const run = () => {
       if (!runnerReady) {
         pendingRun = true;
+        setBootMessage("Preparing preview...");
         setStatus("runner loading...");
         return;
       }
       pendingRun = false;
       initialRunStarted = true;
+      setBootMessage("Running example...");
       clearLogs();
       currentRunId = `run-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       if (runTimeoutId) {
@@ -557,6 +630,7 @@
         } else {
           setStatus(event.data.error || "runtime error", "err");
         }
+        hideBootOverlay();
         return;
       }
       if (event.data.type === "uix:log") {
