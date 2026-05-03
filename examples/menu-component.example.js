@@ -58,6 +58,8 @@ const ensureInlineStyle = () => {
       padding: 16px 14px 10px;
       margin-bottom: 6px;
       background: linear-gradient(180deg, #333333 70%, rgba(51,51,51,0));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
     }
     #sidebar .node-content,
     #sidebar .leaf-node-content {
