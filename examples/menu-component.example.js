@@ -35,7 +35,7 @@ const ensureInlineStyle = () => {
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,0.12);
       box-shadow: 0 18px 50px rgba(0,0,0,0.35);
-      padding: 0 12px 10px;
+      padding: 0 12px 0;
       box-sizing: border-box;
       overflow-y: auto;
       overflow-x: hidden;
@@ -67,10 +67,10 @@ const ensureInlineStyle = () => {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       border-radius: 16px;
-      margin: 0 0 12px auto;
+      margin: 0 0 8px auto;
       border: 1px solid rgba(255,255,255,0.25);
       background: rgba(255,255,255,0.06);
       color: #ffffff;
