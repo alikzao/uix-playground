@@ -4,6 +4,8 @@ import "./app.css";
 const playgroundRoot = new URL("../", import.meta.url);
 const examplesUrl = new URL("./examples/index.js", playgroundRoot).href;
 const runnerBaseUrl = new URL("./runner.html", playgroundRoot).href;
+const monacoLoaderUrl = new URL("./vendor/monaco/vs/loader.js", playgroundRoot).href;
+const monacoVsPath = new URL("./vendor/monaco/vs", playgroundRoot).href;
 
 const { examples, examplesById, defaultExampleId } = await import(examplesUrl);
 
@@ -83,7 +85,7 @@ const loadMonaco = async () => {
   }
   await new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js";
+    script.src = monacoLoaderUrl;
     script.onload = resolve;
     script.onerror = reject;
     document.head.appendChild(script);
@@ -91,7 +93,7 @@ const loadMonaco = async () => {
   return await new Promise((resolve, reject) => {
     window.require.config({
       paths: {
-        vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs"
+        vs: monacoVsPath
       }
     });
     window.require(["vs/editor/editor.main"], () => resolve(window.monaco), reject);

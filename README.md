@@ -30,6 +30,11 @@ It still works from the monorepo path:
 Build script creates shell assets:
 - `dist/app.js`
 - `dist/app.css`
+- `dist/vendor/monaco/vs/*`
+
+Shell dependencies:
+- `split.js` is bundled into `dist/app.js`
+- `monaco-editor` is copied to `dist/vendor/monaco/vs` and loaded locally (no CDN)
 
 Examples are intentionally not bundled into shell build:
 - `examples/*.example.js`
