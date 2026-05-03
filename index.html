@@ -226,7 +226,7 @@
       <section class="pane result-pane" id="resultPane">
         <div class="pane-header">Result</div>
         <div class="preview-wrap">
-          <iframe id="preview" src="./runner.html" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer" title="Sandbox result"></iframe>
+          <iframe id="preview" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer" title="Sandbox result"></iframe>
         </div>
       </section>
     </div>
@@ -267,6 +267,7 @@
     let splitRows = null;
     let initialRunStarted = false;
     let runnerReady = false;
+    let pendingRun = false;
 
     const params = new URLSearchParams(window.location.search);
     const requestedExample = params.get("example");
@@ -417,6 +418,11 @@
       logs.parentElement.scrollTop = logs.parentElement.scrollHeight;
     };
 
+    const loadRunner = () => {
+      runnerReady = false;
+      frame.src = `./runner.html?reload=${Date.now()}`;
+    };
+
     const parseExternals = (raw) => {
       if (!raw || !raw.trim()) return [];
       return raw
@@ -439,8 +445,11 @@
 
     const run = () => {
       if (!runnerReady) {
+        pendingRun = true;
+        setStatus("runner loading...");
         return;
       }
+      pendingRun = false;
       initialRunStarted = true;
       clearLogs();
       currentRunId = `run-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -461,8 +470,8 @@
       );
       runTimeoutId = window.setTimeout(() => {
         setStatus("execution timeout, runner restarted", "err");
-        runnerReady = false;
-        frame.src = `./runner.html?reload=${Date.now()}`;
+        pendingRun = true;
+        loadRunner();
       }, 2500);
       setStatus("running...");
     };
@@ -532,7 +541,7 @@
       if (!event.data) return;
       if (event.data.type === "uix:ready") {
         runnerReady = true;
-        if (!initialRunStarted) {
+        if (pendingRun || !initialRunStarted) {
           run();
         }
         return;
@@ -562,6 +571,7 @@
     if (isFallbackEditor) {
       setEditorValue(initialCode);
     }
+    loadRunner();
   </script>
 </body>
 </html>
