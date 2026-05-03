@@ -193,11 +193,22 @@ html[data-theme="light"] {
     bottom: 0;
     background: var(--sidebar-bg);
     padding: 8px;
+    min-height: 64px;
     display: flex;
+    align-items: center;
     justify-content: flex-end;
-    z-index: 2;
+    z-index: 20;
     box-shadow: none;
     border-top: 1px solid rgba(255,255,255,0.12);
+    isolation: isolate;
+}
+
+#sidebar .sidebar-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--sidebar-bg);
+    z-index: -1;
 }
 
 #sidebar > [data-child="sidebarTree"] {
