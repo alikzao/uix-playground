@@ -266,6 +266,7 @@
     let splitColumns = null;
     let splitRows = null;
     let initialRunStarted = false;
+    let runnerReady = false;
 
     const params = new URLSearchParams(window.location.search);
     const requestedExample = params.get("example");
@@ -437,6 +438,9 @@
     };
 
     const run = () => {
+      if (!runnerReady) {
+        return;
+      }
       initialRunStarted = true;
       clearLogs();
       currentRunId = `run-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -457,7 +461,7 @@
       );
       runTimeoutId = window.setTimeout(() => {
         setStatus("execution timeout, runner restarted", "err");
-        frame.addEventListener("load", run, { once: true });
+        runnerReady = false;
         frame.src = `./runner.html?reload=${Date.now()}`;
       }, 2500);
       setStatus("running...");
@@ -526,6 +530,13 @@
       if (event.origin !== window.location.origin) return;
       if (event.source !== frame.contentWindow) return;
       if (!event.data) return;
+      if (event.data.type === "uix:ready") {
+        runnerReady = true;
+        if (!initialRunStarted) {
+          run();
+        }
+        return;
+      }
       if (event.data.type === "uix:status") {
         if (event.data.runId !== currentRunId) return;
         if (runTimeoutId) {
@@ -550,15 +561,6 @@
     initSplitLayout();
     if (isFallbackEditor) {
       setEditorValue(initialCode);
-    }
-    if (frame.contentDocument?.readyState === "complete") {
-      run();
-    } else {
-      frame.addEventListener("load", () => {
-        if (!initialRunStarted) {
-          run();
-        }
-      }, { once: true });
     }
   </script>
 </body>

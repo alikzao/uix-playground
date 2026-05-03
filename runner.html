@@ -118,6 +118,10 @@
       window.parent.postMessage(payload, parentOrigin);
     };
 
+    const notifyReady = () => {
+      postToParent({ type: "uix:ready" });
+    };
+
     const write = (msg) => {
       postToParent({ type: "uix:log", runId: currentRunId, message: String(msg) });
       consoleBox.classList.add("visible");
@@ -199,6 +203,8 @@
         postToParent({ type: "uix:status", runId: currentRunId, ok: false, error: String(error.message || error) });
       }
     });
+
+    notifyReady();
   </script>
 </body>
 </html>
