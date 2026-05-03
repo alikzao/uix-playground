@@ -12,6 +12,7 @@ Includes:
 ## Run locally
 
 ```bash
+npm run build
 npm run serve
 ```
 
@@ -23,6 +24,18 @@ Open:
 This folder is self-contained so it can be split and pushed as a separate repository.
 It still works from the monorepo path:
 - `/modules/core/static/playground/`
+
+## Build output
+
+Build script creates shell assets:
+- `dist/app.js`
+- `dist/app.css`
+
+Examples are intentionally not bundled into shell build:
+- `examples/*.example.js`
+- `examples/index.js`
+
+Shell loads examples at runtime.
 
 ## External modules in sandbox
 
