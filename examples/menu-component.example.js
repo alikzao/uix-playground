@@ -35,7 +35,7 @@ const ensureInlineStyle = () => {
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,0.12);
       box-shadow: 0 18px 50px rgba(0,0,0,0.35);
-      padding: 16px 12px 10px;
+      padding: 0 12px 10px;
       box-sizing: border-box;
       overflow-y: auto;
       overflow-x: hidden;
@@ -54,7 +54,8 @@ const ensureInlineStyle = () => {
       z-index: 5;
       display: flex;
       justify-content: flex-end;
-      padding: 2px 2px 10px;
+      margin: 0 -12px 6px;
+      padding: 16px 14px 10px;
       margin-bottom: 6px;
       background: linear-gradient(180deg, #333333 70%, rgba(51,51,51,0));
     }
