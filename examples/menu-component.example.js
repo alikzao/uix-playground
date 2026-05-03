@@ -48,19 +48,6 @@ const ensureInlineStyle = () => {
       padding-left: 6px;
       padding-right: 6px;
     }
-    #sidebar .sidebar-header {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      display: flex;
-      justify-content: flex-end;
-      margin: 0 -12px 6px;
-      padding: 16px 14px 10px;
-      margin-bottom: 6px;
-      background: linear-gradient(180deg, #333333 70%, rgba(51,51,51,0));
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
-    }
     #sidebar .node-content,
     #sidebar .leaf-node-content {
       color: #f2f4f8;
@@ -92,15 +79,6 @@ const ensureInlineStyle = () => {
     }
     #sidebar #sidebarToggle i {
       pointer-events: none;
-    }
-    #sidebar .sidebar-footer {
-      position: sticky;
-      bottom: 0;
-      z-index: 5;
-      background: linear-gradient(180deg, rgba(51,51,51,0), rgba(51,51,51,0.95) 35%, #333333 100%);
-      border-top: 1px solid rgba(255,255,255,0.12);
-      margin-top: 8px;
-      padding-top: 14px;
     }
     #sidebar #sidebarResetBottom {
       border: 1px solid rgba(255,255,255,0.3);

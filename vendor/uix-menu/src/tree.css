@@ -165,16 +165,16 @@ html[data-theme="light"] {
 
 /* ширина свернутого у тебя 72px — используем её */
 #sidebar.collapsed .sidebar-footer{
-    position: fixed;
-    left: 0;
+    position: sticky;
+    left: auto;
     bottom: 0;
-    width: 54px;
-    background: var(--sidebar-bg);
-    padding: 8px;
+    width: auto;
+    background: linear-gradient(180deg, rgba(51,51,51,0), rgba(51,51,51,0.95) 35%, var(--sidebar-bg) 100%);
+    padding: 10px 4px 8px;
     box-shadow: var(--sidebar-shadow);
-    z-index: 1100;
+    z-index: 3;
     display: flex;
-    justify-content: center; /* по центру в узком режиме */
+    justify-content: center;
 }
 
 /* чтобы контентом не перекрывать кнопку в развернутом режиме */
@@ -190,12 +190,13 @@ html[data-theme="light"] {
 #sidebar .sidebar-footer {
     position: sticky;
     bottom: 0;
-    background: var(--sidebar-bg);
-    padding: 8px;
+    background: linear-gradient(180deg, rgba(51,51,51,0), rgba(51,51,51,0.95) 35%, var(--sidebar-bg) 100%);
+    padding: 10px 8px 8px;
     display: flex;
     justify-content: flex-end;
     z-index: 2;
     box-shadow: var(--sidebar-shadow);
+    border-top: 1px solid rgba(255,255,255,0.12);
 }
 
 #sidebar #sidebarResetBottom {
@@ -353,4 +354,17 @@ html[data-theme="light"] .leaf-node-content:hover {
 
 html[data-theme="light"] .toggle-icon {
     color: var(--tree-toggle);
+}
+
+#sidebar .sidebar-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 -12px 8px;
+    padding: 14px 14px 10px;
+    background: linear-gradient(180deg, var(--sidebar-bg) 70%, rgba(51,51,51,0));
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
 }

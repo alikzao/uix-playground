@@ -8,31 +8,10 @@
     html, body { margin: 0; padding: 0; }
     body { background: #ffffff; color: #111; }
     #root { min-height: 100vh; }
-    #console {
-      position: fixed;
-      left: 8px;
-      right: 8px;
-      bottom: 8px;
-      max-height: 26vh;
-      overflow: auto;
-      border-radius: 8px;
-      background: rgba(18, 24, 35, 0.94);
-      color: #d6e2f7;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 12px;
-      line-height: 1.45;
-      padding: 8px 10px;
-      box-sizing: border-box;
-      display: none;
-      white-space: pre-wrap;
-      z-index: 10000;
-    }
-    #console.visible { display: block; }
   </style>
 </head>
 <body>
   <div id="root"></div>
-  <pre id="console"></pre>
 
   <script type="module">
     import {
@@ -49,7 +28,6 @@
     } from "./vendor/uix/src/index.js";
 
     const root = document.getElementById("root");
-    const consoleBox = document.getElementById("console");
     const parentOrigin = (() => {
       try {
         return new URL(document.referrer).origin;
@@ -124,14 +102,10 @@
 
     const write = (msg) => {
       postToParent({ type: "uix:log", runId: currentRunId, message: String(msg) });
-      consoleBox.classList.add("visible");
-      consoleBox.textContent += `${msg}\n`;
     };
 
     const clearRuntimeState = () => {
       root.innerHTML = "";
-      consoleBox.textContent = "";
-      consoleBox.classList.remove("visible");
       const popups = document.querySelectorAll(".popup");
       popups.forEach((node) => node.remove());
     };
