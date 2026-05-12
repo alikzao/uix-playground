@@ -161,7 +161,7 @@ window.req = async function (url) {
 document.documentElement.setAttribute("data-theme", "dark");
 document.body.style.background = "#202020";
 root.style.background = "#202020";
-root.innerHTML = '<main id="content-workflow" style="min-height:100vh;background:#202020;"><div id="uml-playground"></div></main>';
+root.innerHTML = '<main id="content-workflow" style="min-height:100vh;background-color:#202020;"><div id="uml-playground"></div></main>';
 
 api.uixUML.initializeUMLSocket({ userId: "playground-user" });
 
