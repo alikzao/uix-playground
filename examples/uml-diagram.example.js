@@ -1,6 +1,6 @@
 export const id = "uml-diagram";
 export const title = "UML Diagram (real)";
-export const externals = "uixUML=https://cdn.jsdelivr.net/gh/alikzao/uix-uml@main/dist/uix-uml.esm.js";
+export const externals = "uixUML=https://cdn.jsdelivr.net/gh/alikzao/uix-uml@c1ef24f27199b86dec1db1a8fb81e3eec71c56fc/dist/uix-uml.esm.js";
 
 export const code = `const ensureStylesheet = (href, marker) => {
   if (document.querySelector('link[' + marker + '][href="' + href + '"]')) return;
@@ -33,7 +33,7 @@ const ensureScript = (src, marker) =>
     document.head.appendChild(script);
   });
 
-ensureStylesheet("https://cdn.jsdelivr.net/gh/alikzao/uix-uml@main/dist/uix-uml.css", "data-uix-uml-style");
+ensureStylesheet("https://cdn.jsdelivr.net/gh/alikzao/uix-uml@c1ef24f27199b86dec1db1a8fb81e3eec71c56fc/dist/uix-uml.css?v=c1ef24f", "data-uix-uml-style");
 await ensureScript("https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js", "data-uix-d3");
 
 window.config = { isDev: true };
