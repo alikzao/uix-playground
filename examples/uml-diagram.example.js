@@ -158,7 +158,10 @@ window.req = async function (url) {
   return { status: "ok", id: "playground-" + Date.now() };
 };
 
-root.innerHTML = '<main id="content-workflow"><div id="uml-playground"></div></main>';
+document.documentElement.setAttribute("data-theme", "dark");
+document.body.style.background = "#202020";
+root.style.background = "#202020";
+root.innerHTML = '<main id="content-workflow" style="min-height:100vh;background:#202020;"><div id="uml-playground"></div></main>';
 
 api.uixUML.initializeUMLSocket({ userId: "playground-user" });
 
