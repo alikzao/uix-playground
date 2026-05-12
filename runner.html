@@ -156,7 +156,8 @@
       const restoreApis = blockNetworkApis();
       try {
         const runtimeApi = await buildApiWithExternals(externals);
-        const wrapped = new Function("api", "root", "log", code);
+        const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+        const wrapped = new AsyncFunction("api", "root", "log", code);
         await wrapped(runtimeApi, root, write);
       } finally {
         restoreApis();
